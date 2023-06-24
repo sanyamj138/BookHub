@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="17dp"
+        android:layout_marginLeft="18dp"
         android:fontFamily="@font/satisfy"
         android:textSize="20sp"
         android:text="@string/navigation_drawer"
