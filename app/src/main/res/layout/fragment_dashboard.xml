@@ -3,16 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment">
+    tools:context=".fragment.DashboardFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/txtDashboard"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:text="@string/dashboard_fragment"
         android:padding="10dp"
         android:textSize="25sp"
         android:fontFamily="@font/satisfy"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dashboardRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtDashboard"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        />
 
 </RelativeLayout>

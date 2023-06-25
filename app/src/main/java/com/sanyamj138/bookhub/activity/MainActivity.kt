@@ -1,18 +1,20 @@
-package com.sanyamj138.bookhub
+package com.sanyamj138.bookhub.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.AbsListView
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.ContentFrameLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.sanyamj138.bookhub.fragment.ProfileFragment
+import com.sanyamj138.bookhub.R
+import com.sanyamj138.bookhub.fragment.AboutFragment
+import com.sanyamj138.bookhub.fragment.DashboardFragment
+import com.sanyamj138.bookhub.fragment.FavouritesFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         frameLayout = findViewById(R.id.frameLayout)
         navigationView = findViewById(R.id.navigationView)
 
+        var previousMenuItem: MenuItem? = null
         setUpToolBar()
+        openDashboard()
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
             this@MainActivity, drawerLayout,
@@ -43,38 +47,42 @@ class MainActivity : AppCompatActivity() {
         actionBarDrawerToggle.syncState()
 
         navigationView.setNavigationItemSelectedListener {
+
+            if (previousMenuItem != null) {
+                previousMenuItem?.isChecked = false
+            }
+
+            it.isCheckable = true
+            it.isChecked = true
+            previousMenuItem = it
+
             when(it.itemId) {
                 R.id.dashboard -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout, DashboardFragment())
-                        .addToBackStack("Dashboard")
-                        .commit()
-
-                    drawerLayout.closeDrawers()
+                    openDashboard()
                 }
 
                 R.id.favourites -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.frameLayout, FavouritesFragment())
-                        .addToBackStack("Favourites")
                         .commit()
 
+                    supportActionBar?.title = "Favourites"
                     drawerLayout.closeDrawers()
                 }
                 R.id.profile -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.frameLayout, ProfileFragment())
-                        .addToBackStack("Profile")
                         .commit()
 
+                    supportActionBar?.title = "Profile"
                     drawerLayout.closeDrawers()
                 }
                 R.id.about -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.frameLayout, AboutFragment())
-                        .addToBackStack("About")
                         .commit()
 
+                    supportActionBar?.title = "About"
                     drawerLayout.closeDrawers()
                 }
             }
@@ -95,5 +103,25 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.openDrawer(GravityCompat.START)
         }
         return super.onOptionsItemSelected (item)
+    }
+
+    fun openDashboard() {
+        val fragment = DashboardFragment()
+        val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frameLayout, fragment)
+            transaction.commit()
+        supportActionBar?.title="Dashboard"
+
+        navigationView.setCheckedItem(R.id.dashboard)
+    }
+
+    override fun onBackPressed() {
+        val frag = supportFragmentManager.findFragmentById(R.id.frameLayout)
+
+        when(frag) {
+            !is DashboardFragment -> openDashboard()
+
+            else -> super.onBackPressed()
+        }
     }
 }

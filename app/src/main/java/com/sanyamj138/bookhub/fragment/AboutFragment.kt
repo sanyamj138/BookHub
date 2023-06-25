@@ -1,10 +1,11 @@
-package com.sanyamj138.bookhub
+package com.sanyamj138.bookhub.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.sanyamj138.bookhub.R
 
 class AboutFragment : Fragment() {
 
