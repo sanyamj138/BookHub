@@ -1,23 +1,28 @@
 package com.sanyamj138.bookhub.fragment
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sanyamj138.bookhub.R
 import com.sanyamj138.bookhub.adapter.DashboardRecyclerAdapter
 import com.sanyamj138.bookhub.model.Book
+import com.sanyamj138.bookhub.util.ConnectionManager
 
 
 class DashboardFragment : Fragment() {
 
     lateinit var dashboardRecycler: RecyclerView
     lateinit var layoutManager: RecyclerView.LayoutManager
+    lateinit var btn_dashboard: Button
 
     val bookList = arrayListOf(
         "P.S. I love You",
@@ -57,6 +62,32 @@ class DashboardFragment : Fragment() {
         dashboardRecycler = view.findViewById(R.id.dashboardRecycler)
 
         layoutManager = LinearLayoutManager(activity)
+
+        btn_dashboard = view.findViewById(R.id.btn_dashboard)
+
+        btn_dashboard.setOnClickListener {
+            if(ConnectionManager().checkConnectivity(activity as Context)) {
+                val dialog = AlertDialog.Builder(activity as Context)
+                dialog.setTitle("Success")
+                dialog.setMessage("Connection Found")
+                dialog.setPositiveButton("Ok") {text, listener ->
+                }
+                dialog.setNegativeButton("Cancel") {text, listener ->
+                }
+                dialog.create()
+                dialog.show()
+            } else {
+                val dialog = AlertDialog.Builder(activity as Context)
+                dialog.setTitle("Error")
+                dialog.setMessage("Connection Not Found")
+                dialog.setPositiveButton("Ok") {text, listener ->
+                }
+                dialog.setNegativeButton("Cancel") {text, listener ->
+                }
+                dialog.create()
+                dialog.show()
+            }
+        }
 
         recyclerAdapter = DashboardRecyclerAdapter(activity as Context, bookInfoList)
 
