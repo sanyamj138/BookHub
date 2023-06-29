@@ -12,6 +12,9 @@ import android.widget.Button
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.sanyamj138.bookhub.R
 import com.sanyamj138.bookhub.adapter.DashboardRecyclerAdapter
 import com.sanyamj138.bookhub.model.Book
@@ -100,6 +103,24 @@ class DashboardFragment : Fragment() {
                 dashboardRecycler.context,(layoutManager as LinearLayoutManager).orientation
             )
         )
+
+        val queue = Volley.newRequestQueue(activity as Context)
+
+        val url = "http://13.235.250.119/vl/book/fetch_books/"
+
+        val jsonObjectRequest = object :JsonObjectRequest(Method.GET, url, null, Response.Listener {
+
+        }, Response.ErrorListener {
+
+        }) {
+            override fun getHeaders(): MutableMap<String, String> {
+
+                val headers = HashMap<String, String> ()
+                headers["Content-type"] = "application/json"
+                headers["token"] = "e1c9baa92f9610"
+                return headers
+            }
+        }
 
         return view
     }
