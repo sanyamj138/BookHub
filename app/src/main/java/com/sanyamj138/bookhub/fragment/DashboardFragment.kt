@@ -1,14 +1,18 @@
 package com.sanyamj138.bookhub.fragment
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +57,7 @@ class DashboardFragment : Fragment() {
 //        Book("The Lord of the Rings", "J.R.R Tolkien", "Rs. 749", "5.0", R.drawable.lord_of_rings)
 //    )
 
+    val bookInfoList = arrayListOf<Book>()
 
     lateinit var recyclerAdapter: DashboardRecyclerAdapter
 
@@ -92,37 +97,74 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        recyclerAdapter = DashboardRecyclerAdapter(activity as Context, bookInfoList)
-
-        dashboardRecycler.adapter = recyclerAdapter
-
-        dashboardRecycler.layoutManager = layoutManager
-
-        dashboardRecycler. addItemDecoration (
-            DividerItemDecoration (
-                dashboardRecycler.context,(layoutManager as LinearLayoutManager).orientation
-            )
-        )
-
         val queue = Volley.newRequestQueue(activity as Context)
 
         val url = "http://13.235.250.119/vl/book/fetch_books/"
 
-        val jsonObjectRequest = object :JsonObjectRequest(Method.GET, url, null, Response.Listener {
-            println("Response is $it")
-        }, Response.ErrorListener {
-            println("Error is $it")
-        }) {
-            override fun getHeaders(): MutableMap<String, String> {
+        if(ConnectionManager().checkConnectivity(activity as Context)) {
+            val jsonObjectRequest = object :JsonObjectRequest(Method.GET, url, null, Response.Listener {
+                val success = it.getBoolean("success")
 
-                val headers = HashMap<String, String> ()
-                headers["Content-type"] = "application/json"
-                headers["token"] = "e1c9baa92f9610"
-                return headers
+                if(success) {
+                    val data = it.getJSONArray ("data")
+                    for(i in 0 until data.length()) {
+                        val bookJsonObject = data. getJSONObject (i)
+
+                        val bookObject = Book (
+                            bookJsonObject.getString("book_id"),
+                            bookJsonObject.getString("name"),
+                            bookJsonObject.getString("author"),
+                            bookJsonObject.getString("rating"),
+                            bookJsonObject.getString("price"),
+                            bookJsonObject.getString ("image")
+                        )
+
+                        bookInfoList.add(bookObject)
+                        recyclerAdapter = DashboardRecyclerAdapter(activity as Context, bookInfoList)
+
+                        dashboardRecycler.adapter = recyclerAdapter
+
+                        dashboardRecycler.layoutManager = layoutManager
+
+                        dashboardRecycler. addItemDecoration (
+                            DividerItemDecoration (
+                                dashboardRecycler.context,(layoutManager as LinearLayoutManager).orientation
+                            )
+                        )
+                    }
+                }
+
+            }, Response.ErrorListener {
+                println("Error is $it")
+            }) {
+                override fun getHeaders(): MutableMap<String, String> {
+
+                    val headers = HashMap<String, String> ()
+                    headers["Content-type"] = "application/json"
+                    headers["token"] = "e1c9baa92f9610"
+                    return headers
+                }
             }
+
+            queue.add(jsonObjectRequest)
+        } else {
+            val dialog = AlertDialog.Builder(activity as Context)
+            dialog.setTitle("Error")
+            dialog.setMessage("Connection Not Found")
+            dialog.setPositiveButton("Open Settings") {text, listener ->
+
+                val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+
+                startActivity(settingsIntent)
+                activity?.finish()
+            }
+            dialog.setNegativeButton("Cancel") {text, listener ->
+                ActivityCompat.finishAffinity(activity as Activity)
+            }
+            dialog.create()
+            dialog.show()
         }
 
-        queue.add(jsonObjectRequest)
 
         return view
     }
