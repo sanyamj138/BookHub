@@ -5,36 +5,28 @@
     android:layout_height="match_parent"
     tools:context=".fragment.DashboardFragment">
 
-    <TextView
-        android:id="@+id/txtDashboard"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content"
-        android:text="@string/dashboard_fragment"
-        android:padding="10dp"
-        android:textSize="25sp"
-        android:fontFamily="@font/satisfy"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dashboardRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtDashboard"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:padding="10dp" />
 
-    <Button
-        android:id="@+id/btn_dashboard"
+    <RelativeLayout
+        android:id="@+id/progressLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="20dp"
-        android:fontFamily="@font/satisfy"
-        android:text="Check Internet"
-        android:textSize="20sp" />
+        android:background="#ffffff"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
