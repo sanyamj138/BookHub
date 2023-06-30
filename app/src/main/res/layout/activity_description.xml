@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DescriptionActivity">
+    
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/black"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:orientation="horizontal"
+                    android:weightSum="6">
+
+                    <ImageView
+                        android:id="@+id/imgBookImage"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:src="@drawable/default_book_cover"
+                        android:scaleType="centerCrop"
+                        android:padding="5dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3.3">
+
+                        <TextView
+                            android:id="@+id/txtBookName"
+                            android:layout_width="match_parent"
+                            android:fontFamily="@font/satisfy"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name_of_the_book"
+                            android:textSize="18sp"
+                            android:padding="8dp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/txtBookAuthor"
+                            android:layout_width="match_parent"
+                            android:fontFamily="@font/satisfy"
+                            android:layout_below="@id/txtBookName"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name_of_the_author"
+                            android:textSize="15sp"
+                            android:padding="8dp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/txtBookPrice"
+                            android:layout_width="match_parent"
+                            android:fontFamily="@font/satisfy"
+                            android:layout_below="@id/txtBookAuthor"
+                            android:layout_height="wrap_content"
+                            android:text="@string/amount"
+                            android:textSize="15sp"
+                            android:padding="8dp"
+                            android:textStyle="bold"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txtBookRating"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:padding="4dp"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:text="4.5"
+                        android:drawableLeft="@android:drawable/btn_star_big_on"/>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/content">
+
+                    <TextView
+                        android:id="@+id/txtAboutTheBookStatic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/satisfy"
+                        android:layout_centerHorizontal="true"
+                        android:padding="6dp"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/about_the_book"/>
+
+                    <TextView
+                        android:id="@+id/txtBookDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtAboutTheBookStatic"
+                        android:layout_margin="10dp"
+                        android:fontFamily="@font/satisfy"
+                        android:padding="6dp"
+                        android:text="@string/blank_fragment"
+                        android:textSize="15sp"/>
+
+
+                </RelativeLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnAddToFav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black"
+        android:fontFamily="@font/satisfy"
+        android:text="@string/add_to_favourites"
+        android:textStyle="bold"
+        android:textSize="19sp" />
+
+    <RelativeLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    
+</RelativeLayout>

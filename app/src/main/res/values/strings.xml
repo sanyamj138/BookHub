@@ -13,4 +13,10 @@
     <string name="favourites_fragment">Favourites Fragment</string>
     <string name="profile_fragment">Profile Fragment</string>
     <string name="about_fragment">About Fragment</string>
+    <string name="name_of_the_book">Name of the book</string>
+    <string name="name_of_the_author">Name of the Author</string>
+    <string name="amount">Amount</string>
+    <string name="about_the_book">About the book:</string>
+    <string name="blank_fragment">Blank Fragment</string>
+    <string name="add_to_favourites">Add to Favourites</string>
 </resources>

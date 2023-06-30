@@ -83,8 +83,6 @@ class DashboardFragment : Fragment() {
 
         progressLayout.visibility = View.VISIBLE
 
-        btn_dashboard = view.findViewById(R.id.btn_dashboard)
-
         btn_dashboard.setOnClickListener {
             if(ConnectionManager().checkConnectivity(activity as Context)) {
                 val dialog = AlertDialog.Builder(activity as Context)
