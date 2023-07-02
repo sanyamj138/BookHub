@@ -9,6 +9,9 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -27,6 +30,7 @@ import com.sanyamj138.bookhub.adapter.DashboardRecyclerAdapter
 import com.sanyamj138.bookhub.model.Book
 import com.sanyamj138.bookhub.util.ConnectionManager
 import org.json.JSONException
+import java.util.Collections
 
 
 class DashboardFragment : Fragment() {
@@ -65,6 +69,15 @@ class DashboardFragment : Fragment() {
 
     val bookInfoList = arrayListOf<Book>()
 
+    var ratingComparator = Comparator<Book> {book1, book2 ->
+        if (book1.bookRating.compareTo(book2.bookRating, true) == 0) {
+        // sort according to name if rating is same
+        book1.bookName.compareTo(book2.bookName, true)
+        } else {
+            book1.bookRating. compareTo (book2. bookRating, true)
+        }
+    }
+
     lateinit var recyclerAdapter: DashboardRecyclerAdapter
 
     override fun onCreateView(
@@ -72,6 +85,8 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
+
+        setHasOptionsMenu(true)
 
         dashboardRecycler = view.findViewById(R.id.dashboardRecycler)
 
@@ -155,9 +170,13 @@ class DashboardFragment : Fragment() {
                 }
 
             }, Response.ErrorListener {
-
-                Toast.makeText(activity as Context, "Volley error occurred!!!", Toast.LENGTH_SHORT ).show ()
-
+                if (activity != null) {
+                    Toast.makeText(
+                        activity as Context,
+                        "Volley error occurred!!!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }) {
                 override fun getHeaders(): MutableMap<String, String> {
 
@@ -189,5 +208,19 @@ class DashboardFragment : Fragment() {
 
 
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater?.inflate(R.menu.menu_dashboard, menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item?.itemId
+            if (id == R.id.action_sort) {
+                Collections. sort (bookInfoList, ratingComparator)
+                bookInfoList.reverse()
+        }
+        recyclerAdapter.notifyDataSetChanged()
+
+        return super.onOptionsItemSelected(item)
     }
 }

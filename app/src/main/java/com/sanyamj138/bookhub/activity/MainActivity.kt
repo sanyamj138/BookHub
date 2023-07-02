@@ -108,7 +108,8 @@ class MainActivity : AppCompatActivity() {
     fun openDashboard() {
         val fragment = DashboardFragment()
         val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.frameLayout, fragment)
+
+        transaction.replace(R.id.frameLayout, fragment)
             transaction.commit()
         supportActionBar?.title="Dashboard"
 
